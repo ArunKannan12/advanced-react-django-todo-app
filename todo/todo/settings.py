@@ -30,8 +30,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
-
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["*"])
 
 
 # Application definition
@@ -136,6 +135,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS=[
+    "https://your-frontend.netlify.app",
     'http://localhost:5173',
     'http://127.0.0.1:5173',
 ]
