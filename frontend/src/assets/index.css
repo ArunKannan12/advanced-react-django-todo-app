@@ -1,0 +1,25 @@
+/* Global light mode styles */
+.light-mode {
+  background-color: #f8f9fa; /* Bootstrap light */
+  color: #212529;
+}
+
+/* Global dark mode styles */
+.dark-mode {
+  background-color: #212529; /* Bootstrap dark */
+  color: #f8f9fa;
+}
+
+/* Optional: Toastify dark theme override */
+.dark-mode .Toastify__toast {
+  background-color: #333;
+  color: #fff;
+}
+body.dark-mode {
+  background-color: #121212;
+  color: #fff;
+}
+body.light-mode {
+  background-color: #fff;
+  color: #000;
+}
