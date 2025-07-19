@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import {refreshAccessToken} from './refreshAccessToken'
 import { jwtDecode } from 'jwt-decode'
+import { useAuth } from './AuthContext'
 
 
 const INACTIVITY_LIMIT = 30 * 60 * 1000; // 30 minutes
 const MODAL_COUNTDOWN = 5 * 60 * 1000;   // 5 minutes
 
 const useAutoLogout = () => {
+  const {user} = useAuth()
   const navigate = useNavigate();
   const inactivityTimerId = useRef(null);
   const expiryCheckTimerId = useRef(null);
@@ -103,6 +105,11 @@ const useAutoLogout = () => {
   };
 
   useEffect(() => {
+    const access = localStorage.getItem('access');
+    const refresh = localStorage.getItem('refresh');
+
+    if (!user || !access || !refresh) return;
+
     const events = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart'];
     events.forEach((event) => window.addEventListener(event, handleActivity));
 
@@ -115,7 +122,8 @@ const useAutoLogout = () => {
       clearTimeout(expiryCheckTimerId.current);
       clearTimeout(countdownTimerId.current);
     };
-  }, []);
+  }, [user]);
+
 
   return {
     modalOpen,
