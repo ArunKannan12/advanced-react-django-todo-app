@@ -10,7 +10,7 @@ export const refreshAccessToken = async () => {
 
   try {
     const response = await axios.post(
-      'http://127.0.0.1:8000/api/auth/jwt/refresh/',
+      'https://todo-backend-3fo7.onrender.com/api/auth/jwt/refresh/',
       { refresh: refreshToken },
       { headers: { 'Content-Type': 'application/json' } }
     );

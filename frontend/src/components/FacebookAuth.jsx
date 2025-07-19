@@ -66,7 +66,7 @@ const FacebookAuth = () => {
 
           window.FB.api('/me', { fields: 'id,name,email' }, async (user) => {
             try {
-              const res = await axios.post('http://127.0.0.1:8000/api/auth/social/facebook/', {
+              const res = await axios.post('https://todo-backend-3fo7.onrender.com/api/auth/social/facebook/', {
                 access_token: accessToken,
                 user_id: user.id,
                 email: user.email,
@@ -79,7 +79,7 @@ const FacebookAuth = () => {
               localStorage.setItem('refresh', refresh_token);
 
               // ✅ Get full user profile
-              const profileRes = await axios.get('http://127.0.0.1:8000/api/auth/users/me/', {
+              const profileRes = await axios.get('https://todo-backend-3fo7.onrender.com/api/auth/users/me/', {
                 headers: { Authorization: `Bearer ${access_token}` },
               });
 

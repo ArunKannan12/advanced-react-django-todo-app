@@ -68,7 +68,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 CSRF_TRUSTED_ORIGINS = env.list(
     "CSRF_TRUSTED_ORIGINS",
-    default=["https://your-backend.onrender.com"]
+    default=["https://todo-backend-3fo7.onrender.com"]
 )
 
 ROOT_URLCONF = 'todo.urls'
@@ -143,11 +143,12 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOWED_ORIGINS=[
-    "https://your-frontend.netlify.app",
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
+CORS_ALLOWED_ORIGINS = [
+    "https://leafy-cranachan-4ad74c.netlify.app",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
 ]
+
 
 AUTH_USER_MODEL='accounts.CustomUser'
 
@@ -186,8 +187,6 @@ EMAIL_USE_TLS = True  # TLS is not needed for MailHog
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
-
-FRONTEND_URL = "http://localhost:5173"
 
 
 DJOSER = {
@@ -277,3 +276,5 @@ MEDIA_ROOT = BASE_DIR / 'media'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = '/static/'
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+FRONTEND_URL = env("FRONTEND_URL", default="http://localhost:5173")

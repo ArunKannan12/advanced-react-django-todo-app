@@ -11,7 +11,7 @@ const GoogleAuth = () => {
 
     const handleGoogleLogin = async (credentialResponse) => {
         try {
-            const res = await axios.post('http://127.0.0.1:8000/api/auth/social/google/', {
+            const res = await axios.post('https://todo-backend-3fo7.onrender.com/api/auth/social/google/', {
             id_token: credentialResponse.credential
             });
 
@@ -22,7 +22,7 @@ const GoogleAuth = () => {
             localStorage.setItem('refresh', refresh_token);
 
             // ✅ Fetch complete user profile with .id
-            const profileRes = await axios.get('http://127.0.0.1:8000/api/auth/users/me/', {
+            const profileRes = await axios.get('https://todo-backend-3fo7.onrender.com/api/auth/users/me/', {
                 headers: { Authorization: `Bearer ${access_token}` },
             });
 

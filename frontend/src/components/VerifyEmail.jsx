@@ -12,7 +12,7 @@ const VerifyEmail = () =>{
     const navigate = useNavigate()
     const handleResend = async () => {
         try {
-            const response = await axios.post("http://127.0.0.1:8000/api/auth/resend-activation/", { email });
+            const response = await axios.post("https://todo-backend-3fo7.onrender.com/api/auth/resend-activation/", { email });
             console.log(response.status);
             toast.success("Activation email resent successfully!");
         } catch (error) {

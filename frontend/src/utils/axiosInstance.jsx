@@ -2,7 +2,7 @@ import axios from "axios";
 import dayjs from 'dayjs';
 import {jwtDecode} from "jwt-decode";
 
-const baseURL = "http://localhost:8000/api/";
+const baseURL = "https://todo-backend-3fo7.onrender.com/api/";
 
 const axiosInstance = axios.create({
   baseURL: baseURL,
