@@ -129,27 +129,28 @@ const ProfileEditModal = ({ show, onHide, user, setUser }) => {
     }
   };
 
-  const handleDelete = async () => {
-    setSaving(true);
-    try {
-      const formData = new FormData();
-      formData.append('custom_user_profile', '');
+    const handleDelete = async () => {
+      setSaving(true);
+      try {
+        const formData = new FormData();
+        formData.append('delete_profile_pic', 'true');
 
-      const res = await axiosInstance.patch('auth/users/me/', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+        const res = await axiosInstance.patch('auth/users/me/', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
 
-      setUser(res.data);
-      toast.success('Profile picture deleted');
-      setConfirmDelete(false);
-      handleClose();
-    } catch {
-      toast.error('Failed to delete picture');
-      setConfirmDelete(false);
-    } finally {
-      setSaving(false);
-    }
-  };
+        setUser(res.data);
+        toast.success('Profile picture deleted');
+        setConfirmDelete(false);
+        handleClose();
+      } catch {
+        toast.error('Failed to delete picture');
+        setConfirmDelete(false);
+      } finally {
+        setSaving(false);
+      }
+    };
+
 
   return (
     <>

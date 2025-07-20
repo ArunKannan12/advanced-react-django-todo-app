@@ -62,26 +62,25 @@ class UserSerializer(serializers.ModelSerializer):
         password = validated_data.pop('password', None)
         profile_pic = validated_data.pop('custom_user_profile', None)
 
-        # Update normal fields
+        request = self.context.get('request')
+        delete_pic_flag = request.data.get('delete_profile_pic', '').lower() == 'true'
+
+        # Handle profile picture deletion
+        if delete_pic_flag:
+            if instance.custom_user_profile:
+                instance.custom_user_profile.delete(save=False)
+            instance.custom_user_profile = None
+        elif profile_pic is not None:
+            if str(provider).strip().lower() != 'email':
+                raise serializers.ValidationError(
+                    "Profile picture can only be updated by users who signed up with email."
+                )
+            instance.custom_user_profile = profile_pic
+
+        # Update other fields
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
 
-        # Handle profile picture update only if provided in payload
-        if profile_pic is not None:
-            # Delete old pic if exists and new pic is None (means delete)
-            if profile_pic == '' or profile_pic is None:
-                if instance.custom_user_profile:
-                    instance.custom_user_profile.delete(save=False)
-                instance.custom_user_profile = None
-            else:
-                # Update profile pic if user signed up with email only
-                if provider != 'email':
-                    raise serializers.ValidationError(
-                        "Profile picture can only be updated by users who signed up with email."
-                    )
-                instance.custom_user_profile = profile_pic
-
-        # Update password if provided
         if password:
             instance.set_password(password)
 

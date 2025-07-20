@@ -3,12 +3,13 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import axiosInstance from '../utils/axiosInstance';
 
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [loading,setLoading] = useState(false)
 
   useEffect(() => {
     const accessToken = localStorage.getItem('access');
@@ -75,6 +76,7 @@ const Signup = () => {
     }
 
     try {
+      setLoading(true)
       const res = await axiosInstance.post('auth/users/', formData);
 
       if (res.status === 201) {
@@ -88,6 +90,8 @@ const Signup = () => {
       } else {
         setErrors({ api: 'Registration failed. Please try again later.' });
       }
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -167,8 +171,21 @@ const Signup = () => {
                   {errors.re_password && <div className="invalid-feedback">{errors.re_password}</div>}
                 </div>
 
-                <button type="submit" className="btn btn-primary w-100">
-                  Register
+                <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+                  {loading ? (
+                      <>
+                        <Spinner
+                          as="span"
+                          animation="border"
+                          size="sm"
+                          role="status"
+                          aria-hidden="true"
+                        />{' '}
+                        Registering...
+                      </>
+                    ) : (
+                      'Register'
+                    )}
                 </button>
 
                 <div className="text-center mt-3">

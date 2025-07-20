@@ -2,11 +2,12 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.conf import settings
 
-AUTH_PROVIDERS = {
-    'email': 'Email',
-    'google': 'Google',
-    'facebook': 'Facebook',
-}
+AUTH_PROVIDERS = [
+    ('email', 'Email'),
+    ('google', 'Google'),
+    ('facebook', 'Facebook'),
+]
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, first_name, last_name, password=None, **extra_fields):
@@ -75,7 +76,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     blocked_until_password_reset = models.DateTimeField(null=True, blank=True)
     block_count_password_reset = models.PositiveIntegerField(default=0)
 
-    auth_provider=models.CharField( max_length=50,default=AUTH_PROVIDERS.get("email"))
+    auth_provider=models.CharField( max_length=50,default='email' ,choices=AUTH_PROVIDERS)
 
     objects = CustomUserManager()
 

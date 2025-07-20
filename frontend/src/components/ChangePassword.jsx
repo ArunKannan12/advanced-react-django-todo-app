@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Modal,Button,Form,Spinner,Container,Card } from 'react-bootstrap'
+import { Modal,Button,Form,Spinner,Container,Card,Row,Col } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import axiosInstance from '../utils/axiosInstance'
 import { Link, useNavigate } from 'react-router-dom'
