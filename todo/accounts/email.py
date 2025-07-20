@@ -21,7 +21,7 @@ class CustomActivationEmail(ActivationEmail):
             frontend_url = settings.FRONTEND_URL.rstrip("/")
         except Exception as e: 
             frontend_url = "http://localhost:5173"  # Fallback
-        context["activation_url"] = f"{frontend_url}/activation/{context['uid']}/{context['token']}/"
+        context["url"] = f"{frontend_url}/activation/{context['uid']}/{context['token']}/"
         return context
 
     def send(self, to=None, *args, **kwargs):
