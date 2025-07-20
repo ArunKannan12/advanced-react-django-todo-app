@@ -29,9 +29,9 @@ const ForgotPassword = () => {
   };
 
   return (
-    <Container fluid className="min-vh-100 d-flex justify-content-center align-items-center py-5">
+    <Container fluid className="min-vh-100 d-flex justify-content-center align-items-center bg-light px-3 py-5">
       <Row className="w-100 justify-content-center">
-        <Col xs={12} sm={10} md={6} lg={4}>
+        <Col xs={12} sm={10} md={8} lg={5} xl={4}>
           <Form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow-sm">
             <h4 className="text-center mb-4 text-primary">Forgot Password</h4>
 
@@ -67,6 +67,7 @@ const ForgotPassword = () => {
         </Col>
       </Row>
     </Container>
+
   );
 };
 

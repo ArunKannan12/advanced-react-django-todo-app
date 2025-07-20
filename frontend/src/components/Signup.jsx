@@ -3,6 +3,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
+import { Container, Row, Col } from 'react-bootstrap';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -89,93 +90,103 @@ const Signup = () => {
   };
 
   return (
-    <div className="container py-5">
-      <h2 className="mb-4">Sign Up</h2>
-      {errors.api && <div className="alert alert-danger">{errors.api}</div>}
-      <form onSubmit={handleSubmit} noValidate>
-        <div className="mb-3">
-          <label>Email</label>
-          <input
-            type="email"
-            name="email"
-            className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Enter your email"
-          />
-          {errors.email && <div className="invalid-feedback">{errors.email}</div>}
-        </div>
+    <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light">
+      <Container>
+        <Row className="justify-content-center">
+          <Col xs={12} sm={10} md={8} lg={6} xl={5}>
+            <div className="bg-white p-4 p-md-5 rounded shadow-sm">
+              <h2 className="mb-4 text-center">Sign Up</h2>
 
-        <div className="mb-3">
-          <label>First Name</label>
-          <input
-            type="text"
-            name="first_name"
-            className={`form-control ${errors.first_name ? 'is-invalid' : ''}`}
-            value={formData.first_name}
-            onChange={handleChange}
-            placeholder="John"
-          />
-          {errors.first_name && <div className="invalid-feedback">{errors.first_name}</div>}
-        </div>
+              {errors.api && <div className="alert alert-danger">{errors.api}</div>}
 
-        <div className="mb-3">
-          <label>Last Name</label>
-          <input
-            type="text"
-            name="last_name"
-            className={`form-control ${errors.last_name ? 'is-invalid' : ''}`}
-            value={formData.last_name}
-            onChange={handleChange}
-            placeholder="Doe"
-          />
-          {errors.last_name && <div className="invalid-feedback">{errors.last_name}</div>}
-        </div>
+              <form onSubmit={handleSubmit} noValidate>
+                <div className="mb-3">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Enter your email"
+                  />
+                  {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+                </div>
 
-        <div className="mb-3">
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="********"
-          />
-          {errors.password && <div className="invalid-feedback">{errors.password}</div>}
-        </div>
+                <div className="mb-3">
+                  <label>First Name</label>
+                  <input
+                    type="text"
+                    name="first_name"
+                    className={`form-control ${errors.first_name ? 'is-invalid' : ''}`}
+                    value={formData.first_name}
+                    onChange={handleChange}
+                    placeholder="John"
+                  />
+                  {errors.first_name && <div className="invalid-feedback">{errors.first_name}</div>}
+                </div>
 
-        <div className="mb-3">
-          <label>Confirm Password</label>
-          <input
-            type="password"
-            name="re_password"
-            className={`form-control ${errors.re_password ? 'is-invalid' : ''}`}
-            value={formData.re_password}
-            onChange={handleChange}
-            placeholder="********"
-          />
-          {errors.re_password && <div className="invalid-feedback">{errors.re_password}</div>}
-        </div>
+                <div className="mb-3">
+                  <label>Last Name</label>
+                  <input
+                    type="text"
+                    name="last_name"
+                    className={`form-control ${errors.last_name ? 'is-invalid' : ''}`}
+                    value={formData.last_name}
+                    onChange={handleChange}
+                    placeholder="Doe"
+                  />
+                  {errors.last_name && <div className="invalid-feedback">{errors.last_name}</div>}
+                </div>
 
-        <button type="submit" className="btn btn-primary w-100">
-          Register
-        </button>
+                <div className="mb-3">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="********"
+                  />
+                  {errors.password && <div className="invalid-feedback">{errors.password}</div>}
+                </div>
 
-        <div className="text-center mt-3">
-          <p className="text-muted">
-            Already have an account?{' '}
-            <span
-              className="text-primary"
-              style={{ cursor: 'pointer' }}
-              onClick={() => navigate('/')}
-            >
-              Login
-            </span>
-          </p>
-        </div>
-      </form>
-    </div>
+                <div className="mb-3">
+                  <label>Confirm Password</label>
+                  <input
+                    type="password"
+                    name="re_password"
+                    className={`form-control ${errors.re_password ? 'is-invalid' : ''}`}
+                    value={formData.re_password}
+                    onChange={handleChange}
+                    placeholder="********"
+                  />
+                  {errors.re_password && <div className="invalid-feedback">{errors.re_password}</div>}
+                </div>
+
+                <button type="submit" className="btn btn-primary w-100">
+                  Register
+                </button>
+
+                <div className="text-center mt-3">
+                  <p className="text-muted">
+                    Already have an account?{' '}
+                    <span
+                      className="text-primary"
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => navigate('/')}
+                    >
+                      Login
+                    </span>
+                  </p>
+                </div>
+              </form>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+</div>
   );
 };
 

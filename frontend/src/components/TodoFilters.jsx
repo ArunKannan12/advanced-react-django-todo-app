@@ -55,49 +55,66 @@ const TodoFilters = ({ setTodos }) => {
 
   return (
     <Form className="mb-3">
-      <Row className="g-2 align-items-center">
-        <Col md={4}>
-          <Form.Control
-            type="text"
-            placeholder="Search title/description"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </Col>
+  <Row className="gy-2 gx-2 align-items-center">
+    <Col xs={12} sm={6} md={4}>
+      <Form.Control
+        type="text"
+        placeholder="Search title/description"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="form-control-sm"
+      />
+    </Col>
 
-        <Col md={3}>
-          <Form.Select value={status} onChange={(e) => setStatus(e.target.value)}>
-            <option value="">All</option>
-            <option value="true">Completed</option>
-            <option value="false">Incomplete</option>
-            <option value="overdue">Overdue</option>
-          </Form.Select>
-        </Col>
+    <Col xs={12} sm={6} md={3}>
+      <Form.Select
+        value={status}
+        onChange={(e) => setStatus(e.target.value)}
+        className="form-select-sm"
+      >
+        <option value="">All</option>
+        <option value="true">Completed</option>
+        <option value="false">Incomplete</option>
+        <option value="overdue">Overdue</option>
+      </Form.Select>
+    </Col>
 
-        <Col md={3}>
-          <Form.Select value={ordering} onChange={(e) => setOrdering(e.target.value)}>
-            <option value="-created_at">Newest First</option>
-            <option value="created_at">Oldest First</option>
-            <option value="due_date">Due Date (Soonest)</option>
-            <option value="-due_date">Due Date (Latest)</option>
-          </Form.Select>
-        </Col>
-        <Col md={2}>
-          <Form.Control
-            type="date"
-            value={dateFilter}
-            disabled={loading}
-            onChange={(e) => setDateFilter(e.target.value)}
-          />
-        </Col>
+    <Col xs={12} sm={6} md={3}>
+      <Form.Select
+        value={ordering}
+        onChange={(e) => setOrdering(e.target.value)}
+        className="form-select-sm"
+      >
+        <option value="-created_at">Newest First</option>
+        <option value="created_at">Oldest First</option>
+        <option value="due_date">Due Date (Soonest)</option>
+        <option value="-due_date">Due Date (Latest)</option>
+      </Form.Select>
+    </Col>
 
-        <Col md={2}>
-          <Button variant="secondary" onClick={handleReset} disabled={resetLoading} className="w-100">
-            {resetLoading ? 'Resetting...' : 'Reset'}
-          </Button>
-        </Col>
-      </Row>
-    </Form>
+    <Col xs={12} sm={6} md={2}>
+      <Form.Control
+        type="date"
+        value={dateFilter}
+        disabled={loading}
+        onChange={(e) => setDateFilter(e.target.value)}
+        className="form-control-sm"
+      />
+    </Col>
+
+    <Col xs={12} sm={6} md={2}>
+      <Button
+        variant="secondary"
+        onClick={handleReset}
+        disabled={resetLoading}
+        className="w-100 btn-sm"
+      >
+        {resetLoading ? 'Resetting...' : 'Reset'}
+      </Button>
+    </Col>
+  </Row>
+</Form>
+
   );
 };
 

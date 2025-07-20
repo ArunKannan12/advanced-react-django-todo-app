@@ -41,10 +41,13 @@ const GoogleAuth = () => {
         };
 
   return (
-    <div>
+    <div className="d-flex justify-content-center w-100 mb-3">
+    <div style={{ width: '100%', maxWidth: '350px' }}>
         <GoogleLogin
-                onSuccess={handleGoogleLogin}
-                onError={()=>toast.error('Googlee sign-in failed')}/>
+        onSuccess={handleGoogleLogin}
+        onError={() => toast.error('Google sign-in failed')}
+        />
+    </div>
     </div>
   )
 }

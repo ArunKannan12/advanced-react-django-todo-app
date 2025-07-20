@@ -122,12 +122,19 @@ const FacebookAuth = () => {
     <Button
       variant="primary"
       onClick={handleLogin}
-      className="w-100 d-flex align-items-center justify-content-center gap-2 mb-3"
-      style={{ backgroundColor: '#1877F2', borderColor: '#1877F2' }}
+      className="w-100 d-flex align-items-center justify-content-center gap-2 mb-3 px-3 py-2"
+      style={{
+        backgroundColor: '#1877F2',
+        borderColor: '#1877F2',
+        fontSize: '1rem',
+        whiteSpace: 'nowrap',
+      }}
     >
       <FaFacebook size={20} />
-      Continue with Facebook
+      <span className="d-none d-sm-inline">Continue with Facebook</span>
+      <span className="d-inline d-sm-none">Login</span>
     </Button>
+
   );
 };
 

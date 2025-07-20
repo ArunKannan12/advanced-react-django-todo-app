@@ -65,109 +65,106 @@ const Login = () => {
 
  return (
     <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card shadow-sm">
-            <div className="card-body">
-              <h3 className="card-title text-center mb-4">Login</h3>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">Email address</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    name="email"
-                    required
-                    value={email}
-                    onChange={handleOnChange}
-                    placeholder="Enter your email"
-                    autoComplete="username"
-                  />
-                </div>
+  <div className="row justify-content-center">
+    <div className="col-12 col-sm-10 col-md-6">
+      <div className="card shadow-sm">
+        <div className="card-body">
+          <h3 className="card-title text-center mb-4">Login</h3>
 
-                {/* Password field with toggle */}
-                <div className="mb-3 position-relative">
-                  <label htmlFor="password" className="form-label">Password</label>
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    className="form-control"
-                    id="password"
-                    name="password"
-                    required
-                    value={password}
-                    onChange={handleOnChange}
-                    placeholder="Enter your password"
-                    autoComplete="current-password"
-                  />
-                  <span
-                    onClick={togglePassword}
-                    style={{
-                      position: 'absolute',
-                      top: '38px',
-                      right: '10px',
-                      cursor: 'pointer',
-                      color: '#6c757d',
-                    }}
-                  >
-                    {showPassword ? <FaEyeSlash /> : <FaEye />}
-                  </span>
-                </div>
-
-                <div className="mb-3 form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id="rememberMe"
-                    checked={rememberMe}
-                    onChange={() => setRememberMe(!rememberMe)}
-                  />
-                  <label className="form-check-label" htmlFor="rememberMe">
-                    Remember Me
-                  </label>
-                </div>
-
-                <button type="submit" className="btn btn-primary w-100" disabled={loading}>
-                  {loading ? 'Logging in...' : 'Login'}
-                </button>
-              </form>
-
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                textAlign: 'center',
-                width: '100%',
-                margin: '20px 0'
-              }}>
-                <hr style={{ flex: 1, border: 'none', borderTop: '1px solid #ccc' }} />
-                <span style={{ padding: '0 10px', whiteSpace: 'nowrap', color: '#6c757d', fontWeight: 500 }}>or</span>
-                <hr style={{ flex: 1, border: 'none', borderTop: '1px solid #ccc' }} />
-              </div>
-
-                    <GoogleAuth/>
-                    <br />
-                    <FacebookAuth/>
-                <div className="text-center mt-3">
-                  <p className="text-muted">
-                    Don't have an account?{' '}
-                    <span
-                      className="text-primary"
-                      style={{ cursor: 'pointer' }}
-                      onClick={() => navigate('/signup')}
-                    >
-                      Register
-                    </span>
-                  </p>
-                </div>
-
-                <div className="mt-3 text-center">
-                  <a href="/forgot-password" className="text-decoration-none">Forgot password?</a>
-                </div>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label">Email address</label>
+              <input
+                type="email"
+                className="form-control"
+                id="email"
+                name="email"
+                required
+                value={email}
+                onChange={handleOnChange}
+                placeholder="Enter your email"
+                autoComplete="username"
+              />
             </div>
+
+            <div className="mb-3 position-relative">
+              <label htmlFor="password" className="form-label">Password</label>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                className="form-control"
+                id="password"
+                name="password"
+                required
+                value={password}
+                onChange={handleOnChange}
+                placeholder="Enter your password"
+                autoComplete="current-password"
+              />
+              <span
+                onClick={togglePassword}
+                style={{
+                  position: 'absolute',
+                  top: '38px',
+                  right: '10px',
+                  cursor: 'pointer',
+                  color: '#6c757d',
+                }}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
+
+            <div className="mb-3 form-check">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="rememberMe"
+                checked={rememberMe}
+                onChange={() => setRememberMe(!rememberMe)}
+              />
+              <label className="form-check-label" htmlFor="rememberMe">
+                Remember Me
+              </label>
+            </div>
+
+            <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+              {loading ? 'Logging in...' : 'Login'}
+            </button>
+          </form>
+
+          <div className="d-flex align-items-center my-3">
+            <hr className="flex-grow-1" />
+            <span className="px-2 text-muted fw-medium">or</span>
+            <hr className="flex-grow-1" />
+          </div>
+
+          <div className="d-flex flex-column align-items-center">
+            <div className="w-100 mb-2">
+              <GoogleAuth />
+            </div>
+            <div className="w-100">
+              <FacebookAuth />
+            </div>
+          </div>
+
+          <div className="text-center mt-4">
+            <p className="text-muted">
+              Don't have an account?{' '}
+              <span className="text-primary" style={{ cursor: 'pointer' }} onClick={() => navigate('/signup')}>
+                Register
+              </span>
+            </p>
+          </div>
+
+          <div className="mt-2 text-center">
+            <a href="/forgot-password" className="text-decoration-none">Forgot password?</a>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
   );
 };
 

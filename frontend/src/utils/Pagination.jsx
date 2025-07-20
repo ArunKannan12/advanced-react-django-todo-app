@@ -12,15 +12,28 @@ const Pagination = () => {
   };
 
   return (
-    <div className="d-flex justify-content-center mt-3">
-      <button className="btn btn-secondary me-2" onClick={handlePrevious} disabled={page === 1}>
+    <div className="d-flex flex-wrap justify-content-center align-items-center gap-2 mt-3">
+      <button
+        className="btn btn-secondary"
+        onClick={handlePrevious}
+        disabled={page === 1}
+      >
         Prev
       </button>
-      <span className="align-self-center">Page {page} of {totalPages}</span>
-      <button className="btn btn-secondary ms-2" onClick={handleNext} disabled={page === totalPages}>
+
+      <span className="px-2 text-center">
+        Page {page} of {totalPages}
+      </span>
+
+      <button
+        className="btn btn-secondary"
+        onClick={handleNext}
+        disabled={page === totalPages}
+      >
         Next
       </button>
     </div>
+
   );
 };
 

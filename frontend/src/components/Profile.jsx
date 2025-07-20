@@ -61,128 +61,133 @@ const Profile = () => {
 
 
   return (
-    <div className="d-flex min-vh-100">
-      {/* Sidebar */}
-      <aside
-  className={`position-fixed shadow sidebar-transition d-flex flex-column justify-content-between ${
-    sidebarOpen ? 'sidebar-open' : 'sidebar-closed'
-  }`}
-  style={{
-    top: 0,
-    left: 0,
-    height: '100vh',
-    zIndex: 1040,
-    transition: 'all 0.3s ease-in-out',
-    width: sidebarOpen ? (window.innerWidth < 768 ? '100%' : '250px') : '56px',
-    backgroundColor: themeMode === 'dark' ? '#232222ff' : '#f8f9fa',
-    color: themeMode === 'dark' ? '#fff' : '#000',
-  }}
+    <div
+  className={`${
+    themeMode === 'dark' ? ' text-white' : 'text-dark'
+  } d-flex flex-column flex-md-row min-vh-100`}
+  style={{backgroundColor:themeMode === 'dark' ? '#4a4a4a':'white'}}
 >
-  {/* Sidebar Top - Toggle + Profile + Buttons */}
-  <div>
-    <div className="p-2 d-flex justify-content-center">
-      <button className="btn btn-light" onClick={() => setSidebarOpen(!sidebarOpen)}>
-        <Menu size={20} />
-      </button>
-    </div>
 
-    {sidebarOpen && (
-      <div className="p-3 text-center">
-        <h5 className="text-primary mb-3">MyTodoApp</h5>
-        <div className="mx-auto mb-3 position-relative" style={{ width: 100, height: 100 }}>
-          <img
-            src={profilePic}
-            alt="Profile"
-            className="rounded-circle w-100 h-100 object-fit-cover shadow"
-          />
-          <button
-            onClick={() => setShowModal(true)}
-            className="btn btn-sm btn-primary position-absolute bottom-0 end-0"
-          >
-            <Pen size={14} />
-          </button>
-        </div>
-        <h6 className="mb-0">{user.first_name} {user.last_name}</h6>
-        <small className="text-muted text-truncate d-block">{user.email}</small>
+  {/* Sidebar */}
+  <aside
+    className={`shadow sidebar-transition d-flex flex-column justify-content-between position-fixed position-md-relative ${
+      sidebarOpen ? 'sidebar-open' : 'sidebar-closed'
+    }`}
+    style={{
+      zIndex: 1040,
+      width: sidebarOpen ? '250px' : '56px',
+      backgroundColor: themeMode === 'dark' ? '#232222ff' : '#f8f9fa',
+      color: themeMode === 'dark' ? '#fff' : '#000',
+      height: '100vh',
+      transition: 'all 0.3s ease-in-out',
+    }}
+  >
+    {/* Sidebar Top */}
+    <div>
+      <div className="p-2 d-flex justify-content-center">
+        <button className="btn btn-light" onClick={() => setSidebarOpen(!sidebarOpen)}>
+          <Menu size={20} />
+        </button>
+      </div>
 
-        <div className="mt-3 d-grid gap-2">
-          {user?.auth_provider?.toLowerCase() === 'email' && (
+      {sidebarOpen && (
+        <div className="p-3 text-center">
+          <h5 className="text-primary mb-3">MyTodoApp</h5>
+          <div className="mx-auto mb-3 position-relative" style={{ width: 100, height: 100 }}>
+            <img
+              src={profilePic}
+              alt="Profile"
+              className="rounded-circle w-100 h-100 object-fit-cover shadow"
+            />
             <button
-              className="btn btn-info w-100"
-              onClick={handleChangePassword}
-              disabled={changePassLoading || logoutLoading}
+              onClick={() => setShowModal(true)}
+              className="btn btn-sm btn-primary position-absolute bottom-0 end-0"
             >
-              {changePassLoading ? (
+              <Pen size={14} />
+            </button>
+          </div>
+          <h6 className="mb-0">{user.first_name} {user.last_name}</h6>
+          <small className="text-muted text-truncate d-block">{user.email}</small>
+
+          <div className="mt-3 d-grid gap-2">
+            {user?.auth_provider?.toLowerCase() === 'email' && (
+              <button
+                className="btn btn-info"
+                onClick={handleChangePassword}
+                disabled={changePassLoading || logoutLoading}
+              >
+                {changePassLoading ? (
+                  <>
+                    <Spinner animation="border" size="sm" /> Loading...
+                  </>
+                ) : (
+                  <>
+                    <KeyRound size={16} /> Change Password
+                  </>
+                )}
+              </button>
+            )}
+            <button
+              className="btn btn-danger"
+              onClick={handleLogout}
+              disabled={logoutLoading || changePassLoading}
+            >
+              {logoutLoading ? (
                 <>
-                  <Spinner animation="border" size="sm" /> Loading...
+                  <Spinner animation="border" size="sm" /> Logging out
                 </>
               ) : (
                 <>
-                  <KeyRound size={16} /> Change Password
+                  <LogOut size={16} /> Logout
                 </>
               )}
             </button>
-          )}
-          <button
-            className="btn btn-danger w-100"
-            onClick={handleLogout}
-            disabled={logoutLoading || changePassLoading}
-          >
-            {logoutLoading ? (
-              <>
-                <Spinner animation="border" size="sm" /> Logging out
-              </>
-            ) : (
-              <>
-                <LogOut size={16} /> Logout
-              </>
-            )}
-          </button>
+          </div>
         </div>
-      </div>
-    )}
-  </div>
+      )}
+    </div>
 
-  
- {/* Sidebar Bottom - Theme Toggle + Brightness Slider */}
+    {/* Bottom Section */}
     <div className="p-3 border-top">
       <button className="btn btn-primary w-100" onClick={toggleTheme}>
         {themeMode === 'dark' ? <Sun size={18} /> : <Moon size={18} />}{" "}
         {sidebarOpen && (themeMode === 'dark' ? 'Light Mode' : 'Dark Mode')}
       </button>
-      
     </div>
+  </aside>
 
-</aside>
+  {/* Overlay for mobile */}
+  {sidebarOpen && window.innerWidth < 768 && (
+    <div
+      className="position-fixed top-0 start-0 w-100 h-100"
+      style={{ zIndex: 1030, backgroundColor: 'rgba(0,0,0,0.4)' }}
+      onClick={() => setSidebarOpen(false)}
+    ></div>
+  )}
 
+  {/* Main Content */}
+  <main
+    className="flex-grow-1 p-4"
+    style={{
+      marginLeft:
+        sidebarOpen && window.innerWidth >= 768 ? '250px' : '56px',
+      transition: 'margin 0.3s ease-in-out',
+      color: textColor,
+    }}
+  >
+    <h2 className="h4 text-primary mb-4">Your Todos</h2>
+    <TodoList />
+  </main>
 
+  {/* Modal */}
+  <ProfileEditModal
+    show={showModal}
+    onHide={() => setShowModal(false)}
+    user={user}
+    setUser={setUser}
+  />
+</div>
 
-      {/* Main content */}
-      <main
-          className="flex-grow-1 p-4"
-          style={{
-            marginLeft: sidebarOpen && window.innerWidth >= 768 ? '250px' : '56px',
-            transition: 'margin 0.3s ease-in-out',
-           
-            color: textColor,
-            minHeight: '100vh',
-          }}
-        >
-
-        <h2 className="h4 text-primary mb-4">Your Todos</h2>
-        <TodoList />
-      </main>
-
-
-
-      {/* Edit Modal */}
-      <ProfileEditModal
-        show={showModal}
-        onHide={() => setShowModal(false)}
-        user={user}
-        setUser={setUser}
-      />
-    </div>
   );
 };
 

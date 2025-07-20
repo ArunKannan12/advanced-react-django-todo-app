@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 
 const VerifyEmail = () =>{
     const location = useLocation();  
@@ -26,27 +27,44 @@ const VerifyEmail = () =>{
 }
     };
 return (
-        <div className="container mt-5 text-center">
-            <h3>Email Verification</h3>
-            <p>Please check your inbox for an activation email.</p>
-            <input 
-                type="email" 
-                className="form-control" 
-                placeholder="Enter your email" 
-                value={email} 
-                required
-                disabled
-                onChange={(e) => setEmail(e.target.value)} 
-            />
-            <button className="btn btn-warning mt-3" onClick={handleResend}>
-                Resend Activation Email
-            </button>
-           
-           <p>
-            Back to <span style={{ cursor: "pointer", color: "blue" }} onClick={() => navigate("/")}>Signup</span>
-            </p>
+        <Container className="py-5">
+            <Row className="justify-content-center">
+                <Col xs={12} sm={10} md={6} lg={4}>
+                <div className="text-center bg-white p-4 rounded shadow-sm">
+                    <h4 className="mb-3 text-primary">Email Verification</h4>
+                    <p className="mb-4">Please check your inbox for an activation email.</p>
 
-        </div>
+                    <Form.Control
+                    type="email"
+                    className="mb-3"
+                    placeholder="Enter your email"
+                    value={email}
+                    required
+                    disabled
+                    onChange={(e) => setEmail(e.target.value)}
+                    />
+
+                    <Button
+                    variant="warning"
+                    onClick={handleResend}
+                    className="w-100 mb-3"
+                    >
+                    Resend Activation Email
+                    </Button>
+
+                    <p className="mb-0">
+                    Back to{' '}
+                    <span
+                        style={{ cursor: 'pointer', color: '#0d6efd', textDecoration: 'underline' }}
+                        onClick={() => navigate('/')}
+                    >
+                        Signup
+                    </span>
+                    </p>
+                </div>
+                </Col>
+            </Row>
+            </Container>
     );
 };
 

@@ -52,12 +52,15 @@ const ConfirmResetPassword = () => {
         }
     }
   return (
-    <Container fluid className="vh-100 d-flex justify-content-center align-items-center">
+    <Container
+      fluid
+      className="min-vh-100 d-flex justify-content-center align-items-center px-3"
+    >
       <Row className="w-100 justify-content-center">
         <Col xs={12} sm={10} md={6} lg={4}>
           <Form
             onSubmit={handleOnSubmit}
-            className="bg-white p-4 rounded shadow-sm"
+            className="bg-white p-4 rounded shadow-sm overflow-auto"
           >
             <h4 className="text-center mb-4 text-primary">Reset Password</h4>
 
@@ -105,7 +108,12 @@ const ConfirmResetPassword = () => {
               </InputGroup>
             </Form.Group>
 
-            <Button type="submit" variant="primary" className="w-100" disabled={loading}>
+            <Button
+              type="submit"
+              variant="primary"
+              className="w-100"
+              disabled={loading}
+            >
               {loading ? (
                 <>
                   <Spinner animation="border" size="sm" className="me-2" />
@@ -119,6 +127,7 @@ const ConfirmResetPassword = () => {
         </Col>
       </Row>
     </Container>
+
   )
 }
 

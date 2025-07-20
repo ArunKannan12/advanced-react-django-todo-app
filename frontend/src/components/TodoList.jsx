@@ -90,25 +90,36 @@ const TodoList = () => {
 
   return (
     <div
-      className={`rounded shadow-sm p-4 mt-4 mx-auto w-100 ${
+         className={`rounded shadow-sm p-3 p-md-4 mt-4 mx-auto w-100 ${
         themeMode === 'dark' ? 'bg-dark text-light' : 'bg-white text-dark'
       }`}
-      style={{ maxWidth: '768px', transition: 'background 0.3s, color 0.3s' }}
-    >
-      <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+      style={{
+        maxWidth: '768px',
+        transition: 'background 0.3s, color 0.3s',
+      }}
+>
+
+      <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
         <h4 className="text-primary m-0">Your Todos</h4>
-        <Button variant="primary" onClick={() => setShowAddModal(true)}>
+        <Button
+          variant="primary"
+          size="sm"
+          onClick={() => setShowAddModal(true)}
+          className="ms-auto"
+        >
           + Add Todo
         </Button>
       </div>
 
-        <div className="d-flex flex-wrap gap-4 mt-3 py-3">
-          <span className="badge bg-primary">Total: {counts.total}</span>
-          <span className="badge bg-success">Completed: {counts.completed}</span>
-          <span className="badge bg-warning text-dark">Incomplete: {counts.incomplete}</span>
-          <span className="badge bg-danger">Overdue: {counts.overdue}</span>
-          <span className="badge bg-info text-dark">Completed (Overdue): {counts.completed_overdue}</span>
-        </div>
+
+       <div className="d-flex flex-wrap gap-2 gap-md-4 mt-2 py-2">
+        <span className="badge bg-primary">Total: {counts.total}</span>
+        <span className="badge bg-success">Completed: {counts.completed}</span>
+        <span className="badge bg-warning text-dark">Incomplete: {counts.incomplete}</span>
+        <span className="badge bg-danger">Overdue: {counts.overdue}</span>
+        <span className="badge bg-info text-dark">Completed (Overdue): {counts.completed_overdue}</span>
+      </div>
+
       <TodoFilters setTodos={setTodos} />
 
       {todosLoading ? (
@@ -117,7 +128,7 @@ const TodoList = () => {
           <p className="mt-2">Loading your todos...</p>
         </div>
       ) : todos.length === 0 ? (
-        <div className="text-center text-muted">No tasks yet.</div>
+        <div className="text-center ">No tasks yet.</div>
       ) : (
         <div className="row g-3 mt-2">
           {todos.map((todo) => (
@@ -127,7 +138,7 @@ const TodoList = () => {
                   ${themeMode === 'dark' ? 'bg-secondary text-light' : ''}
                   ${isOverdue(todo) ? 'bg-danger text-white' : ''}`}
               >
-                <div className="card-body d-flex flex-column flex-md-row justify-content-between align-items-start">
+                <div className="card-body d-flex flex-column flex-md-row justify-content-between align-items-start gap-2">
                   <div className="me-md-3 w-100">
                     <h5 className="card-title mb-1 d-flex align-items-center justify-content-between">
                       <span
@@ -183,7 +194,7 @@ const TodoList = () => {
                     </div>
                   </div>
 
-                  <div className="d-flex gap-2 mt-3 mt-md-0 flex-shrink-0">
+                  <div className="d-flex gap-2 mt-3 mt-md-0 flex-wrap">
                     <OverlayTrigger
                       overlay={
                         <Tooltip>

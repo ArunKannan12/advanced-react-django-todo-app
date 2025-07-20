@@ -40,9 +40,10 @@ const ActivateAccount = () => {
 
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
-      <span>Activating your account...</span>
+    <div className="d-flex justify-content-center align-items-center min-vh-100 px-3 text-center">
+      <span className="fs-5">Activating your account...</span>
     </div>
+
   );
 };
 

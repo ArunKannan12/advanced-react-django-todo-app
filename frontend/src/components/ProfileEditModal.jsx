@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Spinner, Image } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import axiosInstance from '../utils/axiosInstance';
-
+import '../assets/index.css'
 const ProfileEditModal = ({ show, onHide, user, setUser }) => {
   const [form, setForm] = useState({
     first_name: '',
@@ -154,7 +154,7 @@ const ProfileEditModal = ({ show, onHide, user, setUser }) => {
   return (
     <>
       {/* Main Edit Profile Modal */}
-<Modal show={show} onHide={handleClose} centered scrollable>
+<Modal show={show} onHide={handleClose} centered scrollable dialogClassName="modal-90w">
   <Modal.Header closeButton>
     <Modal.Title>Edit Profile</Modal.Title>
   </Modal.Header>
@@ -210,28 +210,32 @@ const ProfileEditModal = ({ show, onHide, user, setUser }) => {
             src={imagePreview}
             alt="Profile Preview"
             roundedCircle
-            style={{ width: 120, height: 120, objectFit: 'cover' }}
+            className="mx-auto d-block"
+            style={{ width: '100px', height: '100px', objectFit: 'cover' }}
           />
+
         </div>
       )}
 
       {user.custom_user_profile && !imageFile && (
-        <div className="text-center">
+        <div className="text-center d-grid gap-2">
           <Button
             variant="danger"
             onClick={() => setConfirmDelete(true)}
             disabled={saving}
+            className="w-100"
           >
             Delete Picture
           </Button>
         </div>
+
       )}
     </>
   )}
 </Modal.Body>
 
 
-  <Modal.Footer>
+  <Modal.Footer className="d-flex flex-wrap gap-2 justify-content-end">
     <Button variant="secondary" onClick={handleClose} disabled={saving}>
       Cancel
     </Button>
@@ -239,6 +243,7 @@ const ProfileEditModal = ({ show, onHide, user, setUser }) => {
       {saving ? <Spinner size="sm" animation="border" /> : 'Save Changes'}
     </Button>
   </Modal.Footer>
+
 </Modal>
 
 {/* Confirm Delete Modal */}
