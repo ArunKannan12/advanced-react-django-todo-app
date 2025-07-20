@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { Button } from 'react-bootstrap';
 import { FaFacebook } from 'react-icons/fa';
 import { useAuth } from '../utils/AuthContext'; // ✅ AuthContext
+import axiosInstance from '../utils/axiosInstance';
 
 const FacebookAuth = () => {
   const navigate = useNavigate();
@@ -66,7 +67,7 @@ const FacebookAuth = () => {
 
           window.FB.api('/me', { fields: 'id,name,email' }, async (user) => {
             try {
-              const res = await axios.post('https://todo-backend-3fo7.onrender.com/api/auth/social/facebook/', {
+              const res = await axiosInstance.post('auth/social/facebook/', {
                 access_token: accessToken,
                 user_id: user.id,
                 email: user.email,
@@ -79,7 +80,7 @@ const FacebookAuth = () => {
               localStorage.setItem('refresh', refresh_token);
 
               // ✅ Get full user profile
-              const profileRes = await axios.get('https://todo-backend-3fo7.onrender.com/api/auth/users/me/', {
+              const profileRes = await axiosInstance.get('auth/users/me/', {
                 headers: { Authorization: `Bearer ${access_token}` },
               });
 

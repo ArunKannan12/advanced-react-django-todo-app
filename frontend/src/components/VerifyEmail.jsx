@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import axiosInstance from "../utils/axiosInstance";
 
 const VerifyEmail = () =>{
     const location = useLocation();  
@@ -13,7 +14,7 @@ const VerifyEmail = () =>{
     const navigate = useNavigate()
     const handleResend = async () => {
         try {
-            const response = await axios.post("https://todo-backend-3fo7.onrender.com/api/auth/resend-activation/", { email });
+            const response = await axiosInstance.post("auth/resend-activation/", { email });
             console.log(response.status);
             toast.success("Activation email resent successfully!");
         } catch (error) {

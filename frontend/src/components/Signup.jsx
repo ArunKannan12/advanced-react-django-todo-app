@@ -4,6 +4,8 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
 import { Container, Row, Col } from 'react-bootstrap';
+import axiosInstance from '../utils/axiosInstance';
+
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -73,7 +75,7 @@ const Signup = () => {
     }
 
     try {
-      const res = await axios.post('http://localhost:8000/api/auth/users/', formData);
+      const res = await axiosInstance.post('auth/users/', formData);
 
       if (res.status === 201) {
         toast.success('Registration successful! Please check your email to verify.');

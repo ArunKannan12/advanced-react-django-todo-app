@@ -8,6 +8,7 @@ import {FaEye,FaEyeSlash} from 'react-icons/fa'
 import GoogleAuth from './GoogleAuth';
 import FacebookAuth from './FacebookAuth';
 import {  useAuth } from '../utils/AuthContext';
+import axiosInstance from '../utils/axiosInstance';
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -41,7 +42,7 @@ const Login = () => {
     setShowPassword(true);
 
     try {
-      const response = await axios.post('http://localhost:8000/api/auth/jwt/create/', loginData);
+      const response = await axiosInstance.post('auth/jwt/create/', loginData);
       const { access, refresh } = response.data;
 
       if (rememberMe) {

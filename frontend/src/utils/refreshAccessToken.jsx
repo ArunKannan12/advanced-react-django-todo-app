@@ -1,4 +1,5 @@
 import axios from 'axios';
+import axiosInstance from './axiosInstance';
 
 export const refreshAccessToken = async () => {
   const refreshToken = localStorage.getItem('refresh') || sessionStorage.getItem('refresh');
@@ -9,8 +10,8 @@ export const refreshAccessToken = async () => {
   }
 
   try {
-    const response = await axios.post(
-      'https://todo-backend-3fo7.onrender.com/api/auth/jwt/refresh/',
+    const response = await axiosInstance.post(
+      'auth/jwt/refresh/',
       { refresh: refreshToken },
       { headers: { 'Content-Type': 'application/json' } }
     );

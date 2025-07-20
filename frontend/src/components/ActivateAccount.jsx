@@ -11,7 +11,7 @@ const ActivateAccount = () => {
   const activateUser = async () => {
     try {
   
-      const response = await axios.post("https://todo-backend-3fo7.onrender.com/api/auth/users/activation/", {
+      const response = await axios.post("auth/users/activation/", {
         uid,
         token,
       });
