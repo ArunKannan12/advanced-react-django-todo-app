@@ -5,13 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
 import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import axiosInstance from '../utils/axiosInstance';
-
-
+import { useTheme } from '../utils/ThemeContext';
 const Signup = () => {
   const navigate = useNavigate();
   const inputRef = useRef(null);
   const [loading,setLoading] = useState(false)
   const formRef = useRef(null);
+
+  const {themeMode} = useTheme()
 
   const handleKeyDown = (e) => {
   if (e.key === 'Enter') {
@@ -145,17 +146,17 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light">
+    <div className="min-vh-100 d-flex align-items-center justify-content-center">
       <Container>
         <Row className="justify-content-center">
           <Col xs={12} sm={10} md={8} lg={6} xl={5}>
-            <div className="bg-white p-4 p-md-5 rounded shadow-sm">
-              <h2 className="mb-4 text-center">Sign Up</h2>
+            <div className=" p-4 p-md-5 rounded shadow-sm">
+              <h2 className="mb-4 text-center text-dark">Sign Up</h2>
 
               {errors.api && <div className="alert alert-danger">{errors.api}</div>}
 
-              <form onSubmit={handleSubmit} noValidate ref={formRef}>
-                <div className="mb-3">
+              <form onSubmit={handleSubmit} noValidate ref={formRef} className='text-dark'>
+                <div className="mb-3" >
                   <label>Email</label>
                   <input
                     onKeyDown={handleKeyDown}
