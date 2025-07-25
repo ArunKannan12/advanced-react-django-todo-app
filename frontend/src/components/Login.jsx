@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
 import {FaEye,FaEyeSlash} from 'react-icons/fa'
 import GoogleAuth from './GoogleAuth';
 import FacebookAuth from './FacebookAuth';
@@ -16,10 +14,17 @@ const Login = () => {
   const [showPassword,setShowPassword] = useState(false);
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
+  const inputFocus = useRef(null);
+
+  const [errors, setErrors] = useState({
+  email: '',
+  password: '',
+  });
 
   const {login,isAuthenticated} = useAuth();
 
     useEffect(()=>{
+      inputFocus.current.focus()
         if (isAuthenticated) return navigate('/profile')
       },[isAuthenticated,navigate])
   
@@ -34,35 +39,46 @@ const Login = () => {
 
   const handleOnChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
+    setErrors((prev)=>({...prev,[e.target.name]: e.target.value}))
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
+
+  let newErrors = { email: '', password: '' };
+
+  if (!email.trim()) newErrors.email = 'Email is required';
+  if (!password.trim()) newErrors.password = 'Password is required';
+
+  setErrors(newErrors);
+
+  if (newErrors.email || newErrors.password) return;
+
+  try {
     setLoading(true);
     setShowPassword(true);
 
-    try {
-      const response = await axiosInstance.post('auth/jwt/create/', loginData);
-      const { access, refresh } = response.data;
+    const response = await axiosInstance.post('auth/jwt/create/', loginData);
+    const { access, refresh } = response.data;
 
-      if (rememberMe) {
-        localStorage.setItem('access', access);
-        localStorage.setItem('refresh', refresh);
-      } else {
-        sessionStorage.setItem('access', access);
-        sessionStorage.setItem('refresh', refresh);
-      }
-      login(access,null,rememberMe)
-
-      toast.success('Login successful');
-      console.log('Login success, navigating to profile');
-      navigate('/profile');
-    } catch (error) {
-      toast.error('Invalid email or password!');
-    } finally {
-      setLoading(false);
+    if (rememberMe) {
+      localStorage.setItem('access', access);
+      localStorage.setItem('refresh', refresh);
+    } else {
+      sessionStorage.setItem('access', access);
+      sessionStorage.setItem('refresh', refresh);
     }
-  };
+
+    login(access, null, rememberMe);
+    toast.success('Login successful');
+    navigate('/profile');
+  } catch (error) {
+    toast.error('Invalid email or password!');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
  return (
     <div className="container mt-5">
@@ -72,27 +88,29 @@ const Login = () => {
         <div className="card-body">
           <h3 className="card-title text-center mb-4">Login</h3>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} noValidate>
             <div className="mb-3">
               <label htmlFor="email" className="form-label">Email address</label>
               <input
+              ref={inputFocus}
                 type="email"
-                className="form-control"
+                className={`form-control ${!email.trim() && 'is-invalid'}`}
                 id="email"
                 name="email"
                 required
                 value={email}
                 onChange={handleOnChange}
                 placeholder="Enter your email"
-                autoComplete="username"
+                autoComplete="email"
               />
+              {errors.email && <div className="invalid-feedback">{errors.email}</div>}
             </div>
 
             <div className="mb-3 position-relative">
               <label htmlFor="password" className="form-label">Password</label>
               <input
                 type={showPassword ? 'text' : 'password'}
-                className="form-control"
+                className={`form-control ${!password.trim() && 'is-invalid'}`}
                 id="password"
                 name="password"
                 required
@@ -101,6 +119,7 @@ const Login = () => {
                 placeholder="Enter your password"
                 autoComplete="current-password"
               />
+              {errors.password && <div className="invalid-feedback">{errors.password}</div>}
               <span
                 onClick={togglePassword}
                 style={{

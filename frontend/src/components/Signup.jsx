@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -9,11 +9,27 @@ import axiosInstance from '../utils/axiosInstance';
 
 const Signup = () => {
   const navigate = useNavigate();
+  const inputRef = useRef(null);
   const [loading,setLoading] = useState(false)
+  const formRef = useRef(null);
+
+  const handleKeyDown = (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault(); // Prevent form submit on Enter
+    const form = formRef.current;
+    const inputs = Array.from(form.querySelectorAll('input'));
+    const index = inputs.indexOf(e.target);
+    if (index > -1 && index < inputs.length - 1) {
+      inputs[index + 1].focus();
+    }
+  }
+};
+
 
   useEffect(() => {
     const accessToken = localStorage.getItem('access');
 
+    inputRef.current?.focus();
     if (accessToken) {
       try {
         const decoded = jwtDecode(accessToken);
@@ -40,30 +56,53 @@ const Signup = () => {
     password: '',
     re_password: '',
   });
+  const {email,first_name,last_name,password,re_password} = formData;
+  
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-  const [errors, setErrors] = useState({});
+
+  const [errors, setErrors] = useState({
+      email: '',
+      first_name: '',
+      last_name: '',
+      password: '',
+      re_password: '',
+  });
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setErrors((prevError)=>({...prevError,[e.target.name]: ''}))
   };
 
   const validate = () => {
     const newErrors = {};
 
-    if (!formData.email) newErrors.email = 'Email is required';
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Invalid email format';
+    if (!email.trim()) newErrors.email = 'Email is required';
+    else if (!emailRegex.test(email)) newErrors.email = 'Invalid email format';
 
-    if (!formData.first_name) newErrors.first_name = 'First name is required';
+    if (!first_name.trim()) newErrors.first_name = 'First name is required';
 
-    if (!formData.last_name) newErrors.last_name = 'Last name is required';
+    if (!last_name.trim()) newErrors.last_name = 'Last name is required';
 
-    if (!formData.password) newErrors.password = 'Password is required';
-    else if (formData.password.length < 8) newErrors.password = 'Password must be at least 8 characters';
+    if (!password.trim()) newErrors.password = 'Password is required';
+    else if (!passwordRegex.test(password)) newErrors.password = 'Password must be at least 8 characters, include uppercase, lowercase, number, and special character.';
 
-    if (!formData.re_password) newErrors.re_password = 'Confirm password is required';
-    else if (formData.password !== formData.re_password) newErrors.re_password = 'Passwords do not match';
+    if (!re_password.trim()) newErrors.re_password = 'Confirm password is required';
+    else if (password !== re_password) newErrors.re_password = 'Passwords do not match';
 
     return newErrors;
+  };
+
+
+  const check = () => {
+    return (
+      email.trim() &&
+      first_name.trim() &&
+      last_name.trim() &&
+      password.trim() &&
+      re_password.trim()
+  );
   };
 
   const handleSubmit = async (e) => {
@@ -80,18 +119,28 @@ const Signup = () => {
       const res = await axiosInstance.post('auth/users/', formData);
 
       if (res.status === 201) {
-        toast.success('Registration successful! Please check your email to verify.');
-        setErrors({});
-        navigate('/verify-email', { state: { email: formData.email } });
-      }
+      toast.success('Registration successful! Please check your email to verify.');
+      setErrors({});
+      setLoading(false);
+      setTimeout(() => {
+      navigate('/verify-email', { state: { email: email } });
+    }, 200); 
+  }
+
     } catch (err) {
       if (err.response?.data) {
-        setErrors(err.response.data);
+        const apiErrors = {};
+        for (const key in err.response.data) {
+          apiErrors[key] = Array.isArray(err.response.data[key])
+            ? err.response.data[key][0]
+            : err.response.data[key];
+        }
+        setErrors(apiErrors);
       } else {
         setErrors({ api: 'Registration failed. Please try again later.' });
       }
-    }finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -105,87 +154,109 @@ const Signup = () => {
 
               {errors.api && <div className="alert alert-danger">{errors.api}</div>}
 
-              <form onSubmit={handleSubmit} noValidate>
+              <form onSubmit={handleSubmit} noValidate ref={formRef}>
                 <div className="mb-3">
                   <label>Email</label>
                   <input
+                    onKeyDown={handleKeyDown}
+                    ref={inputRef}
                     type="email"
                     name="email"
                     className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-                    value={formData.email}
+                    value={email}
                     onChange={handleChange}
                     placeholder="Enter your email"
                   />
-                  {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+                  {errors.email && (
+                    <div className="invalid-feedback">{errors.email}</div>
+                  )}
                 </div>
 
                 <div className="mb-3">
                   <label>First Name</label>
                   <input
+                  onKeyDown={handleKeyDown}
                     type="text"
                     name="first_name"
                     className={`form-control ${errors.first_name ? 'is-invalid' : ''}`}
-                    value={formData.first_name}
+                    value={first_name}
                     onChange={handleChange}
                     placeholder="John"
                   />
-                  {errors.first_name && <div className="invalid-feedback">{errors.first_name}</div>}
+                  {errors.first_name && (
+                    <div className="invalid-feedback">{errors.first_name}</div>
+                  )}
                 </div>
 
                 <div className="mb-3">
                   <label>Last Name</label>
                   <input
                     type="text"
+                    onKeyDown={handleKeyDown}
                     name="last_name"
                     className={`form-control ${errors.last_name ? 'is-invalid' : ''}`}
-                    value={formData.last_name}
+                    value={last_name}
                     onChange={handleChange}
                     placeholder="Doe"
                   />
-                  {errors.last_name && <div className="invalid-feedback">{errors.last_name}</div>}
+                  {errors.last_name && (
+                    <div className="invalid-feedback">{errors.last_name}</div>
+                  )}
                 </div>
 
                 <div className="mb-3">
                   <label>Password</label>
                   <input
+                  onKeyDown={handleKeyDown}
                     type="password"
                     name="password"
                     className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-                    value={formData.password}
+                    value={password}
                     onChange={handleChange}
                     placeholder="********"
                   />
-                  {errors.password && <div className="invalid-feedback">{errors.password}</div>}
+                  {errors.password && (
+                    <div className="invalid-feedback">{errors.password}</div>
+                  )}
                 </div>
 
                 <div className="mb-3">
                   <label>Confirm Password</label>
                   <input
                     type="password"
+                    onKeyDown={handleKeyDown}
                     name="re_password"
-                    className={`form-control ${errors.re_password ? 'is-invalid' : ''}`}
-                    value={formData.re_password}
+                    className={`form-control ${
+                      errors.re_password ? 'is-invalid' : ''
+                    }`}
+                    value={re_password}
                     onChange={handleChange}
                     placeholder="********"
                   />
-                  {errors.re_password && <div className="invalid-feedback">{errors.re_password}</div>}
+                  {errors.re_password && (
+                    <div className="invalid-feedback">{errors.re_password}</div>
+                  )}
                 </div>
 
-                <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+                <button
+                  type="submit"
+                  className="btn btn-primary w-100"
+                  disabled={loading || !check()}
+                >
                   {loading ? (
-                      <>
-                        <Spinner
-                          as="span"
-                          animation="border"
-                          size="sm"
-                          role="status"
-                          aria-hidden="true"
-                        />{' '}
-                        Registering...
-                      </>
-                    ) : (
-                      'Register'
-                    )}
+                    <>
+                      <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                      />{' '}
+                      Registering...
+                    </>
+                  ) : (
+                    'Register'
+                  )}
                 </button>
 
                 <div className="text-center mt-3">
@@ -205,7 +276,7 @@ const Signup = () => {
           </Col>
         </Row>
       </Container>
-</div>
+    </div>
   );
 };
 
