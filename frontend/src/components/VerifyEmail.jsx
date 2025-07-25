@@ -59,7 +59,7 @@ return (
                         style={{ cursor: 'pointer', color: '#0d6efd', textDecoration: 'underline' }}
                         onClick={() => navigate('/')}
                     >
-                        Signup
+                        Login
                     </span>
                     </p>
                 </div>
